@@ -7,9 +7,9 @@ let state = {
     currentSort: "hot",
     searchQuery: "",
     posts: [],
-    subreddits: [],
     currentUser: "u/dev_ops_wizard",
-    theme: "dark"
+    theme: "dark",
+    isRunningTask: false
 };
 
 // ==========================================================================
@@ -27,25 +27,11 @@ function initTheme() {
     const savedTheme = localStorage.getItem("devops_theme") || "dark";
     state.theme = savedTheme;
     document.documentElement.setAttribute("data-theme", savedTheme);
-    updateThemeIcon();
-}
-
-function updateThemeIcon() {
-    const btn = document.getElementById("theme-toggle-btn");
-    if (!btn) return;
-    // Lucide updates automatically on load, but we can toggle icons manually or via class
 }
 
 // Initial API fetches and page render
 async function initApp() {
-    // Render initial empty state / loaders
-    renderSubredditsList([]);
-    
-    // Perform parallel fetches
-    await Promise.all([
-        fetchSubreddits(),
-        fetchPosts()
-    ]);
+    await fetchPosts();
 }
 
 // Global Event Handlers Setup
@@ -56,9 +42,6 @@ function setupEventListeners() {
         state.searchQuery = "";
         document.getElementById("global-search").value = "";
         document.getElementById("search-clear-btn").classList.add("hidden");
-        document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
-        const allEl = document.querySelector('[data-sub="All"]');
-        if (allEl) allEl.classList.add("active");
         showFeedView();
         fetchPosts();
     });
@@ -68,11 +51,6 @@ function setupEventListeners() {
         state.theme = state.theme === "dark" ? "light" : "dark";
         document.documentElement.setAttribute("data-theme", state.theme);
         localStorage.setItem("devops_theme", state.theme);
-    });
-
-    // User Profile Selector
-    document.getElementById("user-selector").addEventListener("change", (e) => {
-        state.currentUser = e.target.value;
     });
 
     // Search bar input & clear
@@ -148,6 +126,21 @@ function setupEventListeners() {
         btn.addEventListener("click", (e) => {
             openModal();
             document.getElementById("task-prompt").value = e.target.textContent;
+            
+            // Auto-select category if matching
+            const categorySelect = document.getElementById("task-category");
+            if (categorySelect) {
+                const text = e.target.textContent.toLowerCase();
+                if (text.includes("fastapi")) {
+                    categorySelect.value = "FastAPI";
+                } else if (text.includes("docker")) {
+                    categorySelect.value = "Docker";
+                } else if (text.includes("github")) {
+                    categorySelect.value = "GitHub";
+                } else if (text.includes("python")) {
+                    categorySelect.value = "Python";
+                }
+            }
         });
     });
 
@@ -165,7 +158,6 @@ function setupEventListeners() {
 function showFeedView() {
     document.getElementById("feed-view-container").classList.remove("hidden");
     document.getElementById("post-details-container").classList.add("hidden");
-    document.getElementById("feed-title").textContent = `r/${state.currentSubreddit}`;
 }
 
 function showDetailsView() {
@@ -177,38 +169,18 @@ function showDetailsView() {
 // API Operations: Fetching & Data Loading
 // ==========================================================================
 
-// Fetch unique subreddits list
-async function fetchSubreddits() {
-    try {
-        const response = await fetch(`${API_BASE}/subreddits`);
-        if (!response.ok) throw new Error("Subreddits retrieval error");
-        state.subreddits = await response.json();
-        renderSubredditsList(state.subreddits);
-        
-        // Update sidebar widgets stats
-        document.getElementById("stats-total-subs").textContent = state.subreddits.length;
-    } catch (err) {
-        console.error("Failed to load subreddits list:", err);
-        // Load some defaults in case of failure
-        renderSubredditsList(["All", "FastAPI", "GitHub", "StackOverflow", "Docker", "Python"]);
-    }
-}
-
 // Fetch posts feed (supports sorting, search, subreddit filter)
 async function fetchPosts() {
     const listContainer = document.getElementById("post-cards-list");
     listContainer.innerHTML = `
         <div class="loading-spinner-container">
             <div class="spinner"></div>
-            <p>Retrieving posts...</p>
+            <p>Loading execution reports...</p>
         </div>
     `;
 
     try {
         let url = `${API_BASE}/posts?sort=${state.currentSort}`;
-        if (state.currentSubreddit && state.currentSubreddit !== "All") {
-            url += `&subreddit=${encodeURIComponent(state.currentSubreddit)}`;
-        }
         if (state.searchQuery) {
             url += `&query=${encodeURIComponent(state.searchQuery)}`;
         }
@@ -219,7 +191,7 @@ async function fetchPosts() {
         
         renderPostsFeed(state.posts);
         
-        // Update sidebar stats
+        // Update stats
         document.getElementById("stats-total-posts").textContent = state.posts.length;
         document.getElementById("status-backend").className = "status-dot online";
     } catch (err) {
@@ -227,9 +199,9 @@ async function fetchPosts() {
         listContainer.innerHTML = `
             <div class="no-posts-card">
                 <i data-lucide="alert-circle"></i>
-                <h3>Server connection failed</h3>
-                <p>Could not fetch items from FastAPI service. Make sure backend runs on localhost:8000.</p>
-                <button class="btn btn-secondary" onclick="fetchPosts()" style="margin-top:12px;">Retry Connection</button>
+                <h3>Server Connection Failed</h3>
+                <p>Could not reach the FastAPI service. Verify the local server is running on port 8000.</p>
+                <button class="btn btn-secondary" onclick="fetchPosts()" style="margin-top:12px;">Retry</button>
             </div>
         `;
         lucide.createIcons();
@@ -241,39 +213,6 @@ async function fetchPosts() {
 // Rendering Elements
 // ==========================================================================
 
-// Render subreddits navigation in left sidebar
-function renderSubredditsList(list) {
-    const container = document.getElementById("subreddit-list");
-    container.innerHTML = "";
-    
-    list.forEach(subName => {
-        if (subName.toLowerCase() === "all") return; // Rendered statically at top
-        
-        const li = document.createElement("li");
-        li.className = `nav-item ${state.currentSubreddit === subName ? 'active' : ''}`;
-        li.setAttribute("data-sub", subName);
-        li.innerHTML = `
-            <span class="subreddit-tag-circle">${subName[0].toUpperCase()}</span>
-            <span>r/${subName}</span>
-        `;
-        
-        li.addEventListener("click", () => {
-            state.currentSubreddit = subName;
-            state.searchQuery = "";
-            document.getElementById("global-search").value = "";
-            
-            // Toggle active classes
-            document.querySelectorAll(".sidebar-left .nav-item").forEach(item => item.classList.remove("active"));
-            li.classList.add("active");
-            
-            showFeedView();
-            fetchPosts();
-        });
-        
-        container.appendChild(li);
-    });
-}
-
 // Render posts feed list in center panel
 function renderPostsFeed(posts) {
     const container = document.getElementById("post-cards-list");
@@ -283,8 +222,8 @@ function renderPostsFeed(posts) {
         container.innerHTML = `
             <div class="no-posts-card">
                 <i data-lucide="compass"></i>
-                <h3>No posts found</h3>
-                <p>There are no queries matches in r/${state.currentSubreddit} right now. Click "Run Agent Task" to trigger a new run!</p>
+                <h3>No Reports Found</h3>
+                <p>There are no recorded execution runs. Launch a new agent task above!</p>
             </div>
         `;
         lucide.createIcons();
@@ -295,8 +234,6 @@ function renderPostsFeed(posts) {
         const card = document.createElement("div");
         card.className = "post-card";
         
-        // Count total steps from planner
-        const stepsCount = post.plan?.steps?.length || 0;
         const relativeTime = getRelativeTime(post.created_at);
         const score = post.upvotes - post.downvotes;
         
@@ -317,9 +254,9 @@ function renderPostsFeed(posts) {
             
             <div class="post-main">
                 <div class="post-meta">
-                    <span class="post-subreddit-tag">r/${post.subreddit}</span>
+                    <span class="post-subreddit-tag">${post.subreddit}</span>
                     <span class="post-bullet">•</span>
-                    <span>Posted by ${post.author}</span>
+                    <span>Executed by ${post.author}</span>
                     <span>${relativeTime}</span>
                 </div>
                 
@@ -339,11 +276,7 @@ function renderPostsFeed(posts) {
                 <div class="post-actions">
                     <button class="post-action-btn">
                         <i data-lucide="message-square"></i>
-                        <span>${post.comment_count || 0} Comments</span>
-                    </button>
-                    <button class="post-action-btn share-btn" data-id="${post.id}">
-                        <i data-lucide="share-2"></i>
-                        <span>Share</span>
+                        <span>${post.comment_count || 0} Discussions</span>
                     </button>
                 </div>
             </div>
@@ -361,13 +294,6 @@ function renderPostsFeed(posts) {
         
         upBtn.addEventListener("click", () => handleVote(post.id, "up", upBtn, downBtn, scoreVal));
         downBtn.addEventListener("click", () => handleVote(post.id, "down", upBtn, downBtn, scoreVal));
-        
-        // Setup share listener
-        card.querySelector(".share-btn").addEventListener("click", (e) => {
-            e.stopPropagation();
-            navigator.clipboard.writeText(`${window.location.origin}/#post-${post.id}`);
-            alert("Post link copied to clipboard!");
-        });
 
         container.appendChild(card);
     });
@@ -399,7 +325,7 @@ async function loadPostDetails(postId) {
             <div class="no-posts-card">
                 <i data-lucide="alert-triangle"></i>
                 <h3>Error Loading Details</h3>
-                <p>Could not reach the server to download full agent execution logs.</p>
+                <p>Could not download execution log databases from server.</p>
                 <button class="btn btn-secondary" onclick="loadPostDetails(${postId})" style="margin-top:12px;">Retry</button>
             </div>
         `;
@@ -435,12 +361,12 @@ function renderPostDetails(post) {
                 
                 <div class="post-main">
                     <div class="post-meta">
-                        <span class="post-subreddit-tag">r/${post.subreddit}</span>
+                        <span class="post-subreddit-tag">${post.subreddit}</span>
                         <span class="post-bullet">•</span>
-                        <span>Posted by ${post.author}</span>
+                        <span>Executed by ${post.author}</span>
                         <span>${relativeTime}</span>
                     </div>
-                    <h1 class="post-card-title" style="font-size: 22px; margin-top:4px;">${escapeHTML(post.task)}</h1>
+                    <h1 class="post-card-title" style="font-size: 20px; margin-top:4px;">${escapeHTML(post.task)}</h1>
                 </div>
             </div>
             
@@ -457,19 +383,19 @@ function renderPostDetails(post) {
                 <!-- Section 2: Agent execution step flow -->
                 <div class="detail-section-title">
                     <i data-lucide="workflow"></i>
-                    <span>Multi-Agent Execution Flow</span>
+                    <span>Data Integration Pipeline</span>
                 </div>
                 
                 <div class="flow-diagram-container">
                     ${post.execution_results?.steps ? post.execution_results.steps.map((step, idx) => `
                         <div class="flow-step-item">
                             <div class="flow-step-header">
-                                <span class="flow-step-number">Step ${idx+1}: ${step.tool === 'github_search' ? 'GitHub Query' : 'StackOverflow Query'}</span>
+                                <span class="flow-step-number">Step ${idx+1}: ${step.tool === 'github_search' ? 'GitHub API Query' : 'StackOverflow API Query'}</span>
                                 <span class="flow-step-tool-badge">${escapeHTML(step.tool)}</span>
                             </div>
                             <div class="flow-step-desc">${escapeHTML(step.description)}</div>
                             <div class="flow-step-meta" style="font-size:12px; color:var(--text-secondary); margin-bottom:8px;">
-                                <strong>Query:</strong> <code>${escapeHTML(step.inputs?.query || '')}</code>
+                                <strong>Query String:</strong> <code>${escapeHTML(step.inputs?.query || '')}</code>
                             </div>
                             
                             <button class="flow-step-details-toggle" data-idx="${idx}">
@@ -485,12 +411,12 @@ function renderPostDetails(post) {
         
         <!-- Section 3: Comments area -->
         <div class="comments-container">
-            <h3 style="margin-bottom:16px; font-size:16px;">Comments (${post.comments ? post.comments.length : 0})</h3>
+            <h3 style="margin-bottom:16px; font-size:15px; text-transform:uppercase; letter-spacing:0.5px;">Discussions (${post.comments ? post.comments.length : 0})</h3>
             
             <div class="comment-input-area">
-                <label for="new-comment-text">Discuss this execution result:</label>
-                <textarea id="new-comment-text" class="comment-textarea" placeholder="What are your thoughts on this AI execution? Leave a comment..." rows="3"></textarea>
-                <button class="btn btn-primary" id="btn-submit-comment">Post Comment</button>
+                <label for="new-comment-text">Post a note on this execution path:</label>
+                <textarea id="new-comment-text" class="comment-textarea" placeholder="Leave your analysis or comment on this run result..." rows="3"></textarea>
+                <button class="btn btn-primary" id="btn-submit-comment">Submit Note</button>
             </div>
             
             <div class="comments-list" id="post-comments-list">
@@ -547,7 +473,7 @@ function renderComments(commentsList, postId) {
     listContainer.innerHTML = "";
     
     if (commentsList.length === 0) {
-        listContainer.innerHTML = `<p style="color:var(--text-muted); text-align:center; padding: 20px 0;">No comments yet. Be the first to share your thoughts!</p>`;
+        listContainer.innerHTML = `<p style="color:var(--text-muted); text-align:center; padding: 20px 0;">No comments recorded for this task execution.</p>`;
         return;
     }
     
@@ -655,7 +581,7 @@ async function submitComment(postId, content, parentId = null) {
         fetchPosts();
     } catch (err) {
         console.error("Failed to post comment:", err);
-        alert("Server failed to save your comment. Check connectivity.");
+        alert("Server failed to save your comment.");
     }
 }
 
@@ -668,7 +594,7 @@ async function handleVote(postId, type, upBtn, downBtn, scoreVal) {
     const wasUpvoted = localStorage.getItem(upKey) === "true";
     const wasDownvoted = localStorage.getItem(downKey) === "true";
 
-    // Stop if user clicks already active vote (prevents duplicate vote counts)
+    // Stop if user clicks already active vote
     if ((isUp && wasUpvoted) || (!isUp && wasDownvoted)) {
         return;
     }
@@ -723,7 +649,10 @@ async function handleRunTaskSubmit(e) {
     
     const form = e.target;
     const prompt = document.getElementById("task-prompt").value.trim();
-    const subreddit = document.getElementById("task-subreddit").value;
+    
+    const categorySelect = document.getElementById("task-category");
+    const category = categorySelect ? categorySelect.value : "General";
+    
     const isMock = document.getElementById("task-mock").checked;
 
     if (!prompt) return;
@@ -743,7 +672,7 @@ async function handleRunTaskSubmit(e) {
     addTerminalLog(logsEl, `[Orchestrator] Task received: "${prompt}"`, "info");
     addTerminalLog(logsEl, `[Orchestrator] Mode: ${isMock ? 'SIMULATION (Mock Mode)' : 'LIVE AGENTS'}`, "warning");
 
-    // Start UI animation timeline (fake-streaming progress visual)
+    // Start UI animation timeline
     const animTimeline = runVisualizerAnimation(isMock);
 
     // Call API in the background
@@ -755,7 +684,7 @@ async function handleRunTaskSubmit(e) {
             },
             body: JSON.stringify({
                 task: prompt,
-                subreddit: subreddit,
+                subreddit: category,
                 author: state.currentUser,
                 mock: isMock
             })
@@ -777,10 +706,7 @@ async function handleRunTaskSubmit(e) {
         document.getElementById("run-task-modal").classList.add("hidden");
         
         // Refresh feeds
-        await Promise.all([
-            fetchSubreddits(),
-            fetchPosts()
-        ]);
+        await fetchPosts();
         
         // Load details of the newly created post
         loadPostDetails(newPost.id);
@@ -861,13 +787,13 @@ function runVisualizerAnimation(isMock) {
             
             nodeExecutor.className = "agent-node active";
             nodeExecutor.querySelector(".agent-status").textContent = "Searching...";
-            addTerminalLog(logsEl, `[Planner] Sub-tasks structured successfully!`, "success");
+            addTerminalLog(logsEl, `[Planner] JSON plan structured successfully!`, "success");
             addTerminalLog(logsEl, `[Executor] Activating Executor Agent...`, "info");
-            addTerminalLog(logsEl, `[Executor] querying GitHub API repository database...`, "spinner-line");
+            addTerminalLog(logsEl, `[Executor] Querying GitHub API repository database...`, "spinner-line");
         }
         else if (seconds === 6) {
-            addTerminalLog(logsEl, `[Executor] GitHub fetch complete. Found matching repositories.`, "success");
-            addTerminalLog(logsEl, `[Executor] querying StackExchange advanced search API...`, "spinner-line");
+            addTerminalLog(logsEl, `[Executor] GitHub fetch complete. Filtering top matches.`, "success");
+            addTerminalLog(logsEl, `[Executor] Querying StackExchange advanced search API...`, "spinner-line");
         }
         else if (seconds === 9) {
             // Executor complete -> Verifier active
@@ -877,12 +803,11 @@ function runVisualizerAnimation(isMock) {
             
             nodeVerifier.className = "agent-node active";
             nodeVerifier.querySelector(".agent-status").textContent = "Synthesizing...";
-            addTerminalLog(logsEl, `[Executor] StackOverflow fetch complete. Found 2 relevant threads.`, "success");
+            addTerminalLog(logsEl, `[Executor] StackOverflow fetch complete. Found relevant threads.`, "success");
             addTerminalLog(logsEl, `[Verifier] Activating Verifier Agent...`, "info");
-            addTerminalLog(logsEl, `[Verifier] Synthesizing reports and writing markdown answer...`, "spinner-line");
+            addTerminalLog(logsEl, `[Verifier] Evaluating payload tokens and formatting final report...`, "spinner-line");
         }
         else if (seconds >= 12 && isMock) {
-            // In mock mode we can loop or finish. Let's wait.
             addTerminalLog(logsEl, `[Verifier] Polishing text layout...`, "spinner-line");
         }
     }, 1000);
@@ -910,7 +835,7 @@ async function completeVisualizerAnimation(logsEl, post) {
     nodeVerifier.className = "agent-node completed";
     nodeVerifier.querySelector(".agent-status").textContent = "Completed";
     
-    addTerminalLog(logsEl, `[Verifier] Synthesis completed. Answer compiled successfully!`, "success");
+    addTerminalLog(logsEl, `[Verifier] Synthesis completed. Report compiled successfully!`, "success");
     addTerminalLog(logsEl, `[Orchestrator] Multi-agent task execution finished. Saving report.`, "success");
     
     // Mini delay for user to appreciate completion
@@ -950,7 +875,6 @@ function getRelativeTime(dateString) {
     const date = new Date(dateString + 'Z'); // Parse as UTC timezone
     const now = new Date();
     
-    // Handle local timestamp shifts if date is parsed incorrectly
     const diffMs = now - date;
     const diffMins = Math.floor(diffMs / 60000);
     const diffHours = Math.floor(diffMs / 3600000);

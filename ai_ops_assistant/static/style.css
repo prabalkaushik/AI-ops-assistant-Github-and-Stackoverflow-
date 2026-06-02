@@ -4,19 +4,19 @@
 
 :root {
     /* Color Variables (Dark Mode Default) */
-    --reddit-orange: #FF4500;
-    --reddit-orange-hover: #E03D00;
-    --reddit-blue: #0079D3;
-    --reddit-blue-light: #5A75F9;
-    --bg-body: #0B0C0E;
-    --bg-surface: #16181B;
-    --bg-header: #1A1C1F;
-    --border-color: #27292D;
-    --text-primary: #F2F4F7;
-    --text-secondary: #9DA3AE;
-    --text-muted: #646A73;
+    --primary-orange: #FF5A1F;
+    --primary-orange-hover: #E0440E;
+    --primary-blue: #0079D3;
+    --primary-blue-light: #5A75F9;
+    --bg-body: #090B0D;
+    --bg-surface: #14171A;
+    --bg-header: #1A1D21;
+    --border-color: #272C33;
+    --text-primary: #F2F4F8;
+    --text-secondary: #9EADB8;
+    --text-muted: #647380;
     --hover-overlay: rgba(255, 255, 255, 0.04);
-    --input-bg: #27292D;
+    --input-bg: #22262B;
     
     /* Statuses */
     --color-online: #22C55E;
@@ -24,8 +24,8 @@
     --color-warning: #F59E0B;
     
     /* Layout */
-    --header-height: 56px;
-    --sidebar-left-width: 240px;
+    --header-height: 60px;
+    --sidebar-left-width: 290px;
     --sidebar-right-width: 320px;
     --border-radius-sm: 4px;
     --border-radius-md: 8px;
@@ -36,25 +36,25 @@
     --shadow-lg: 0 10px 25px rgba(0,0,0,0.5);
     
     /* Glassmorphism */
-    --glass-bg: rgba(22, 24, 27, 0.85);
+    --glass-bg: rgba(20, 23, 26, 0.85);
     --glass-border: rgba(255, 255, 255, 0.08);
 }
 
 [data-theme="light"] {
     /* Color Variables (Light Mode) */
-    --bg-body: #DAE0E6;
+    --bg-body: #F4F6F8;
     --bg-surface: #FFFFFF;
     --bg-header: #FFFFFF;
-    --border-color: #CCCCCC;
-    --text-primary: #1C1C1C;
-    --text-secondary: #576F76;
-    --text-muted: #787C7E;
+    --border-color: #DDE2E5;
+    --text-primary: #1C2024;
+    --text-secondary: #576574;
+    --text-muted: #8395A7;
     --hover-overlay: rgba(0, 0, 0, 0.04);
-    --input-bg: #F6F7F8;
+    --input-bg: #F0F3F5;
     
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-    --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
     
     --glass-bg: rgba(255, 255, 255, 0.85);
     --glass-border: rgba(0, 0, 0, 0.08);
@@ -73,7 +73,7 @@
 body {
     background-color: var(--bg-body);
     color: var(--text-primary);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 14px;
     line-height: 1.5;
     overflow-x: hidden;
@@ -81,7 +81,7 @@ body {
 }
 
 a {
-    color: var(--reddit-blue-light);
+    color: var(--primary-blue-light);
     text-decoration: none;
 }
 
@@ -129,21 +129,21 @@ h1, h2, h3, h4, .logo-text {
 }
 
 .accent-text {
-    color: var(--reddit-orange);
+    color: var(--primary-orange);
 }
 
 /* ==========================================================================
    Header Styles
    ========================================================================== */
 
-.reddit-header {
+.app-header {
     background-color: var(--bg-header);
     border-bottom: 1px solid var(--border-color);
     height: var(--header-height);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 20px;
+    padding: 0 24px;
     position: fixed;
     top: 0;
     left: 0;
@@ -161,13 +161,14 @@ h1, h2, h3, h4, .logo-text {
 .logo-container {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     cursor: pointer;
     font-size: 20px;
 }
 
 .logo-icon {
     font-size: 24px;
+    color: var(--primary-orange);
     animation: float 3s ease-in-out infinite;
 }
 
@@ -178,7 +179,7 @@ h1, h2, h3, h4, .logo-text {
 }
 
 .header-center {
-    flex: 0 1 600px;
+    flex: 0 1 500px;
     margin: 0 20px;
 }
 
@@ -189,13 +190,13 @@ h1, h2, h3, h4, .logo-text {
     display: flex;
     align-items: center;
     padding: 0 16px;
-    height: 40px;
+    height: 38px;
     width: 100%;
     transition: border-color var(--transition-speed), background-color var(--transition-speed);
 }
 
 .search-bar-container:focus-within {
-    border-color: var(--reddit-orange);
+    border-color: var(--primary-orange);
     background-color: var(--bg-body);
 }
 
@@ -236,41 +237,19 @@ h1, h2, h3, h4, .logo-text {
     gap: 16px;
 }
 
-/* User Selector dropdown styling */
-.user-selector-container {
-    display: flex;
-    align-items: center;
-    background-color: var(--input-bg);
-    border-radius: 20px;
-    padding: 4px 12px;
-    gap: 6px;
-    border: 1px solid var(--border-color);
-}
-
-.user-avatar {
-    font-size: 16px;
-}
-
-.user-selector-container select {
-    background: transparent;
-    border: none;
-    color: var(--text-primary);
-    font-weight: 500;
-    cursor: pointer;
-}
-
 .theme-toggle {
     background: none;
     border: none;
     color: var(--text-secondary);
     cursor: pointer;
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: background-color var(--transition-speed);
+    border: 1px solid var(--border-color);
 }
 
 .theme-toggle:hover {
@@ -288,7 +267,7 @@ h1, h2, h3, h4, .logo-text {
    ========================================================================== */
 
 .btn {
-    border-radius: 9999px;
+    border-radius: 20px;
     border: 1px solid transparent;
     cursor: pointer;
     display: inline-flex;
@@ -296,7 +275,7 @@ h1, h2, h3, h4, .logo-text {
     justify-content: center;
     gap: 8px;
     font-weight: 600;
-    padding: 8px 16px;
+    padding: 8px 18px;
     transition: background-color var(--transition-speed), border-color var(--transition-speed), transform 0.1s;
     height: 38px;
 }
@@ -306,12 +285,12 @@ h1, h2, h3, h4, .logo-text {
 }
 
 .btn-primary {
-    background-color: var(--reddit-orange);
+    background-color: var(--primary-orange);
     color: #FFFFFF;
 }
 
 .btn-primary:hover {
-    background-color: var(--reddit-orange-hover);
+    background-color: var(--primary-orange-hover);
 }
 
 .btn-secondary {
@@ -323,13 +302,6 @@ h1, h2, h3, h4, .logo-text {
 .btn-secondary:hover {
     background-color: var(--hover-overlay);
     border-color: var(--text-secondary);
-}
-
-.btn-icon {
-    width: 38px;
-    height: 38px;
-    padding: 0;
-    border-radius: 50%;
 }
 
 .hidden {
@@ -344,13 +316,13 @@ h1, h2, h3, h4, .logo-text {
     display: grid;
     grid-template-columns: var(--sidebar-left-width) 1fr var(--sidebar-right-width);
     gap: 20px;
-    max-width: 1400px;
+    max-width: 1440px;
     margin: var(--header-height) auto 0 auto;
-    padding: 20px;
+    padding: 24px;
     min-height: calc(100vh - var(--header-height));
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1240px) {
     .main-container {
         grid-template-columns: var(--sidebar-left-width) 1fr;
     }
@@ -359,92 +331,158 @@ h1, h2, h3, h4, .logo-text {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .main-container {
         grid-template-columns: 1fr;
-        padding: 10px;
+        padding: 16px;
     }
     .sidebar-left {
         display: none;
     }
-    .reddit-header {
-        padding: 0 10px;
+    .app-header {
+        padding: 0 16px;
     }
     .header-center {
-        display: none; /* Hide search bar on very small devices */
+        display: none;
     }
 }
 
 /* ==========================================================================
-   Left Sidebar Styles
+   Left Sidebar: Portfolio Project Architecture Overview
    ========================================================================== */
 
 .sidebar-left {
     position: sticky;
-    top: calc(var(--header-height) + 20px);
-    height: calc(100vh - var(--header-height) - 40px);
+    top: calc(var(--header-height) + 24px);
+    height: calc(100vh - var(--header-height) - 48px);
     overflow-y: auto;
-    padding-right: 10px;
+    padding-right: 4px;
 }
 
-.nav-section {
-    margin-bottom: 24px;
+.widget {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    margin-bottom: 16px;
 }
 
-.nav-section-title {
-    color: var(--text-muted);
-    font-size: 11px;
+.widget-header-banner {
+    background: linear-gradient(135deg, var(--primary-orange), #FF8540);
+    height: 8px;
+    width: 100%;
+}
+
+.widget-body {
+    padding: 18px;
+}
+
+.widget-title {
+    font-size: 15px;
+    color: var(--text-primary);
+    margin-bottom: 12px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-bottom: 8px;
-    padding-left: 12px;
 }
 
-.nav-list {
+.project-brief-text {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 18px;
+}
+
+.architecture-steps {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 14px;
 }
 
-.nav-item {
-    border-radius: var(--border-radius-md);
-    cursor: pointer;
+.arch-step {
     display: flex;
-    align-items: center;
     gap: 12px;
-    height: 40px;
-    padding: 0 12px;
-    color: var(--text-secondary);
-    transition: background-color var(--transition-speed), color var(--transition-speed);
+    align-items: flex-start;
 }
 
-.nav-item i {
+.arch-step-num {
+    background-color: var(--primary-orange);
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: 700;
     width: 20px;
     height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
 }
 
-.nav-item:hover {
-    background-color: var(--hover-overlay);
+.arch-step-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.arch-step-text strong {
+    font-size: 13px;
     color: var(--text-primary);
 }
 
-.nav-item.active {
-    background-color: var(--hover-overlay);
-    color: var(--reddit-orange);
-    font-weight: 600;
+.arch-step-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* Sidebar Connection Status widget */
+.widget-status {
+    padding: 18px;
+}
+
+.status-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.status-dot.online {
+    background-color: var(--color-online);
+    box-shadow: 0 0 6px var(--color-online);
+}
+
+.status-dot.offline {
+    background-color: var(--color-offline);
+    box-shadow: 0 0 6px var(--color-offline);
 }
 
 .sidebar-footer {
-    border-top: 1px solid var(--border-color);
-    padding-top: 16px;
-    margin-top: 24px;
+    padding-top: 10px;
     color: var(--text-muted);
     font-size: 11px;
+    line-height: 1.5;
 }
 
 .sidebar-footer p {
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
 
 /* ==========================================================================
@@ -452,14 +490,14 @@ h1, h2, h3, h4, .logo-text {
    ========================================================================== */
 
 .content-area {
-    min-width: 0; /* Prevents flex items from overflowing */
+    min-width: 0;
 }
 
 .feed-header {
     background-color: var(--bg-surface);
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius-md);
-    padding: 16px;
+    padding: 16px 20px;
     margin-bottom: 16px;
     display: flex;
     justify-content: space-between;
@@ -468,15 +506,15 @@ h1, h2, h3, h4, .logo-text {
 }
 
 .feed-heading {
-    font-size: 22px;
+    font-size: 20px;
     color: var(--text-primary);
 }
 
 .feed-filters {
     display: flex;
-    background-color: var(--bg-body);
+    background-color: var(--input-bg);
     border-radius: 20px;
-    padding: 4px;
+    padding: 3px;
     border: 1px solid var(--border-color);
 }
 
@@ -496,8 +534,8 @@ h1, h2, h3, h4, .logo-text {
 }
 
 .filter-btn i {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
 }
 
 .filter-btn:hover {
@@ -506,7 +544,7 @@ h1, h2, h3, h4, .logo-text {
 
 .filter-btn.active {
     background-color: var(--bg-surface);
-    color: var(--reddit-orange);
+    color: var(--primary-orange);
     box-shadow: var(--shadow-sm);
 }
 
@@ -560,11 +598,11 @@ h1, h2, h3, h4, .logo-text {
 }
 
 .vote-arrow.up:hover, .vote-arrow.up.active {
-    color: var(--reddit-orange);
+    color: var(--primary-orange);
 }
 
 .vote-arrow.down:hover, .vote-arrow.down.active {
-    color: var(--reddit-blue-light);
+    color: var(--primary-blue-light);
 }
 
 .vote-count {
@@ -574,7 +612,7 @@ h1, h2, h3, h4, .logo-text {
 
 /* Post Content */
 .post-main {
-    padding: 12px;
+    padding: 14px 16px;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -591,12 +629,11 @@ h1, h2, h3, h4, .logo-text {
 }
 
 .post-subreddit-tag {
-    color: var(--text-primary);
+    color: var(--primary-orange);
     font-weight: 700;
-}
-
-.post-subreddit-tag:hover {
-    text-decoration: underline;
+    background-color: rgba(255, 90, 31, 0.08);
+    padding: 1px 6px;
+    border-radius: 4px;
 }
 
 .post-bullet {
@@ -604,8 +641,9 @@ h1, h2, h3, h4, .logo-text {
 }
 
 .post-card-title {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
+    line-height: 1.4;
     color: var(--text-primary);
 }
 
@@ -628,11 +666,11 @@ h1, h2, h3, h4, .logo-text {
 }
 
 .plan-step-badge {
-    background-color: var(--bg-body);
+    background-color: var(--input-bg);
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius-sm);
     font-size: 11px;
-    padding: 2px 8px;
+    padding: 3px 8px;
     color: var(--text-secondary);
     display: flex;
     align-items: center;
@@ -689,11 +727,11 @@ h1, h2, h3, h4, .logo-text {
 }
 
 .spinner {
-    border: 4px solid var(--border-color);
-    border-top: 4px solid var(--reddit-orange);
+    border: 3px solid var(--border-color);
+    border-top: 3px solid var(--primary-orange);
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     animation: spin 1s linear infinite;
 }
 
@@ -744,9 +782,8 @@ h1, h2, h3, h4, .logo-text {
     padding: 20px;
 }
 
-/* Agent flow accordion visualization */
 .detail-section-title {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 700;
     color: var(--text-primary);
     margin: 24px 0 12px 0;
@@ -755,12 +792,14 @@ h1, h2, h3, h4, .logo-text {
     gap: 8px;
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .detail-section-title i {
     width: 18px;
     height: 18px;
-    color: var(--reddit-orange);
+    color: var(--primary-orange);
 }
 
 /* Plan Flow diagram in full view */
@@ -776,7 +815,7 @@ h1, h2, h3, h4, .logo-text {
     background-color: var(--bg-surface);
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius-md);
-    padding: 12px;
+    padding: 14px;
     margin-bottom: 12px;
     position: relative;
 }
@@ -795,7 +834,7 @@ h1, h2, h3, h4, .logo-text {
 .flow-step-number {
     font-size: 12px;
     font-weight: 700;
-    color: var(--reddit-orange);
+    color: var(--primary-orange);
 }
 
 .flow-step-tool-badge {
@@ -808,7 +847,7 @@ h1, h2, h3, h4, .logo-text {
 }
 
 .flow-step-desc {
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: 8px;
 }
 
@@ -816,7 +855,7 @@ h1, h2, h3, h4, .logo-text {
 .flow-step-details-toggle {
     background: none;
     border: none;
-    color: var(--reddit-blue-light);
+    color: var(--primary-blue-light);
     cursor: pointer;
     font-size: 12px;
     font-weight: 600;
@@ -836,7 +875,7 @@ h1, h2, h3, h4, .logo-text {
 
 .flow-step-json-content {
     background-color: #050608;
-    color: #34D399; /* Green coding font */
+    color: #34D399; /* Emerald Green */
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
     padding: 12px;
@@ -867,7 +906,7 @@ h1, h2, h3, h4, .logo-text {
 }
 
 .verifier-markdown-output blockquote {
-    border-left: 4px solid var(--reddit-orange);
+    border-left: 4px solid var(--primary-orange);
     background-color: var(--hover-overlay);
     padding: 8px 12px;
     margin-bottom: 12px;
@@ -909,7 +948,7 @@ h1, h2, h3, h4, .logo-text {
 }
 
 /* ==========================================================================
-   Comments System (Reddit style)
+   Comments System
    ========================================================================== */
 
 .comments-container {
@@ -944,7 +983,7 @@ h1, h2, h3, h4, .logo-text {
 }
 
 .comment-textarea:focus {
-    border-color: var(--reddit-orange);
+    border-color: var(--primary-orange);
 }
 
 /* Comments list recursive styles */
@@ -1007,62 +1046,21 @@ h1, h2, h3, h4, .logo-text {
     gap: 16px;
 }
 
-.widget {
-    background-color: var(--bg-surface);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-md);
-    box-shadow: var(--shadow-sm);
-    overflow: hidden;
+.widget-stats-card {
+    padding: 18px;
 }
 
-.widget-header-banner {
-    background: linear-gradient(135deg, var(--reddit-orange), var(--reddit-orange-hover));
-    height: 48px;
-    width: 100%;
-}
-
-.widget-body {
-    padding: 16px;
-}
-
-.widget-title-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: -30px;
-    margin-bottom: 12px;
-}
-
-.widget-avatar {
-    font-size: 32px;
-    background-color: var(--bg-surface);
-    border: 4px solid var(--bg-surface);
-    border-radius: 50%;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: var(--shadow-sm);
-}
-
-.widget-title {
-    font-size: 16px;
-    margin-top: 24px;
-}
-
-.widget-description {
-    color: var(--text-secondary);
-    font-size: 12.5px;
-    line-height: 1.5;
-    margin-bottom: 16px;
+.widget-stats-card .widget-title {
+    margin-top: 0;
+    margin-bottom: 14px;
 }
 
 .widget-stats {
     display: flex;
-    gap: 20px;
-    border-top: 1px solid var(--border-color);
-    padding-top: 12px;
+    gap: 24px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 14px;
+    margin-bottom: 14px;
 }
 
 .stat-box {
@@ -1071,66 +1069,32 @@ h1, h2, h3, h4, .logo-text {
 }
 
 .stat-value {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 700;
+    color: var(--primary-orange);
 }
 
 .stat-label {
     font-size: 11px;
     color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 600;
 }
 
-/* Status widget */
-.widget-status {
-    padding: 16px;
-}
-
-.widget-status .widget-title {
-    margin-top: 0;
-    margin-bottom: 12px;
-    font-size: 14px;
-}
-
-.status-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.status-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 12.5px;
+.portfolio-note {
+    font-size: 12px;
     color: var(--text-secondary);
-}
-
-.status-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-.status-dot.online {
-    background-color: var(--color-online);
-    box-shadow: 0 0 8px var(--color-online);
-}
-
-.status-dot.offline {
-    background-color: var(--color-offline);
-    box-shadow: 0 0 8px var(--color-offline);
+    line-height: 1.5;
 }
 
 /* Quick Prompts list */
 .widget-quickrun {
-    padding: 16px;
+    padding: 18px;
 }
 
 .widget-quickrun .widget-title {
     margin-top: 0;
     margin-bottom: 4px;
-    font-size: 14px;
 }
 
 .widget-desc-text {
@@ -1146,21 +1110,21 @@ h1, h2, h3, h4, .logo-text {
 }
 
 .quick-prompt-btn {
-    background-color: var(--bg-body);
+    background-color: var(--input-bg);
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius-md);
     color: var(--text-secondary);
     cursor: pointer;
-    font-size: 12px;
+    font-size: 12.5px;
     font-weight: 500;
-    padding: 10px;
+    padding: 10px 12px;
     text-align: left;
     transition: background-color var(--transition-speed), border-color var(--transition-speed), color var(--transition-speed);
 }
 
 .quick-prompt-btn:hover {
     background-color: var(--hover-overlay);
-    border-color: var(--reddit-orange);
+    border-color: var(--primary-orange);
     color: var(--text-primary);
 }
 
@@ -1248,7 +1212,7 @@ h1, h2, h3, h4, .logo-text {
 }
 
 .form-group textarea:focus {
-    border-color: var(--reddit-orange);
+    border-color: var(--primary-orange);
 }
 
 .form-row {
@@ -1315,7 +1279,7 @@ h1, h2, h3, h4, .logo-text {
 }
 
 .toggle-container input:checked + .toggle-slider {
-    background-color: var(--reddit-orange);
+    background-color: var(--primary-orange);
 }
 
 .toggle-container input:checked + .toggle-slider:before {
@@ -1380,8 +1344,8 @@ h1, h2, h3, h4, .logo-text {
 }
 
 .agent-node.active {
-    border-color: var(--reddit-orange);
-    box-shadow: 0 0 15px rgba(255, 69, 0, 0.4);
+    border-color: var(--primary-orange);
+    box-shadow: 0 0 15px rgba(255, 90, 31, 0.4);
     transform: scale(1.05);
 }
 
@@ -1407,7 +1371,7 @@ h1, h2, h3, h4, .logo-text {
 }
 
 .agent-node.active .agent-status {
-    color: var(--reddit-orange);
+    color: var(--primary-orange);
     font-weight: 600;
 }
 
@@ -1428,7 +1392,7 @@ h1, h2, h3, h4, .logo-text {
 }
 
 .agent-connector.active {
-    background: linear-gradient(90deg, var(--border-color), var(--reddit-orange));
+    background: linear-gradient(90deg, var(--border-color), var(--primary-orange));
 }
 
 .agent-connector.completed {
@@ -1441,7 +1405,7 @@ h1, h2, h3, h4, .logo-text {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 69, 0, 0.8), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 90, 31, 0.8), transparent);
     animation: flowPulse 1.5s linear infinite;
     display: none;
 }

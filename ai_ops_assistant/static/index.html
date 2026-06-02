@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="AI Operations Assistant - Search, analyze, and automate dev tasks using multi-agent LLM planners and executors on GitHub and StackOverflow, styled like Reddit.">
-    <title>DevOpsReddit - AI Operations Assistant</title>
+    <meta name="description" content="AI Operations Assistant - Multi-agent LLM orchestrator coordinating planner, tool executor, and verifier agents for GitHub and StackOverflow APIs.">
+    <title>AI Operations Assistant - Multi-Agent System</title>
     
     <!-- Premium Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,38 +23,27 @@
 <body>
 
     <!-- Top Navigation Header -->
-    <header class="reddit-header">
+    <header class="app-header">
         <div class="header-left">
             <div class="logo-container" id="btn-logo-home">
-                <div class="logo-icon">🤖</div>
-                <span class="logo-text">DevOps<span class="accent-text">Reddit</span></span>
+                <div class="logo-icon">⚡</div>
+                <span class="logo-text">AI Ops <span class="accent-text">Orchestrator</span></span>
             </div>
         </div>
 
         <div class="header-center">
             <div class="search-bar-container">
                 <i data-lucide="search" class="search-icon"></i>
-                <input type="text" id="global-search" placeholder="Search operations, tasks, or subreddits..." autocomplete="off">
+                <input type="text" id="global-search" placeholder="Search execution reports..." autocomplete="off">
                 <button id="search-clear-btn" class="search-clear-btn hidden">&times;</button>
             </div>
         </div>
 
         <div class="header-right">
             <button class="btn btn-primary" id="btn-create-post">
-                <i data-lucide="plus"></i>
-                <span>Run Agent Task</span>
+                <i data-lucide="play"></i>
+                <span>Run New Task</span>
             </button>
-            
-            <div class="user-selector-container">
-                <div class="user-avatar">🧙</div>
-                <select id="user-selector" title="Select User">
-                    <option value="u/dev_ops_wizard">u/dev_ops_wizard</option>
-                    <option value="u/linus_git">u/linus_git</option>
-                    <option value="u/stack_overflow_guru">u/stack_overflow_guru</option>
-                    <option value="u/pythonic_coder">u/pythonic_coder</option>
-                    <option value="u/docker_captain">u/docker_captain</option>
-                </select>
-            </div>
 
             <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle Theme" title="Toggle Theme">
                 <i data-lucide="sun" class="sun-icon"></i>
@@ -66,101 +55,44 @@
     <!-- Main Container -->
     <div class="main-container">
         
-        <!-- Left Sidebar: Subreddits & Navigation -->
+        <!-- Left Sidebar: Technical Showcase / System Architecture -->
         <aside class="sidebar-left">
-            <div class="nav-section">
-                <h3 class="nav-section-title">Feeds</h3>
-                <ul class="nav-list">
-                    <li class="nav-item active" data-sub="All">
-                        <i data-lucide="globe"></i>
-                        <span>r/All (Global Feed)</span>
-                    </li>
-                </ul>
-            </div>
-            
-            <div class="nav-section">
-                <h3 class="nav-section-title">Subreddits</h3>
-                <ul class="nav-list" id="subreddit-list">
-                    <!-- Populated dynamically -->
-                </ul>
-            </div>
-
-            <div class="sidebar-footer">
-                <p>© 2026 DevOpsReddit Inc.</p>
-                <p>AI Ops Multi-Agent Core v1.0</p>
-            </div>
-        </aside>
-
-        <!-- Center Feed & Post Details Content -->
-        <main class="content-area">
-            <!-- Feed View -->
-            <div id="feed-view-container">
-                <div class="feed-header">
-                    <h1 id="feed-title" class="feed-heading">r/All</h1>
-                    <div class="feed-filters">
-                        <button class="filter-btn active" data-sort="hot">
-                            <i data-lucide="flame"></i><span>Hot</span>
-                        </button>
-                        <button class="filter-btn" data-sort="new">
-                            <i data-lucide="sparkles"></i><span>New</span>
-                        </button>
-                        <button class="filter-btn" data-sort="top">
-                            <i data-lucide="award"></i><span>Top</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Feed Cards List -->
-                <div class="post-cards-list" id="post-cards-list">
-                    <!-- Populated dynamically -->
-                    <div class="loading-spinner-container">
-                        <div class="spinner"></div>
-                        <p>Loading developer community posts...</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Post Details View (Hidden initially) -->
-            <div id="post-details-container" class="hidden">
-                <div class="back-navigation">
-                    <button class="btn btn-secondary" id="btn-back-to-feed">
-                        <i data-lucide="arrow-left"></i><span>Back to Feed</span>
-                    </button>
-                </div>
-                
-                <div id="post-details-content">
-                    <!-- Populated dynamically -->
-                </div>
-            </div>
-        </main>
-
-        <!-- Right Sidebar: Stats & About -->
-        <aside class="sidebar-right">
-            <!-- About Community Card -->
+            <!-- Project Brief Card -->
             <div class="widget widget-about">
                 <div class="widget-header-banner"></div>
                 <div class="widget-body">
-                    <div class="widget-title-container">
-                        <span class="widget-avatar">🤖</span>
-                        <h3 class="widget-title">r/DevOpsReddit</h3>
-                    </div>
-                    <p class="widget-description">
-                        Welcome to the AI-powered developer hub! Execute operations queries using an autonomous multi-agent chain. Planner generates sub-tasks, Executor searches GitHub & StackExchange, and Verifier validates results. Upvote, discuss, and analyze runs!
+                    <h3 class="widget-title">Project Architecture</h3>
+                    <p class="project-brief-text">
+                        An autonomous <strong>Three-Agent System</strong> that parses natural language queries, executes API tools against live databases, and synthesizes answers.
                     </p>
-                    <div class="widget-stats">
-                        <div class="stat-box">
-                            <span class="stat-value" id="stats-total-posts">0</span>
-                            <span class="stat-label">Tasks Run</span>
+                    
+                    <div class="architecture-steps">
+                        <div class="arch-step">
+                            <div class="arch-step-num">1</div>
+                            <div class="arch-step-text">
+                                <strong>Planner Agent (LLM)</strong>
+                                <span class="arch-step-desc">Translates query into a structured, multi-step JSON execution plan.</span>
+                            </div>
                         </div>
-                        <div class="stat-box">
-                            <span class="stat-value" id="stats-total-subs">6</span>
-                            <span class="stat-label">Subreddits</span>
+                        <div class="arch-step">
+                            <div class="arch-step-num">2</div>
+                            <div class="arch-step-text">
+                                <strong>Executor Agent (Python)</strong>
+                                <span class="arch-step-desc">Performs live API fetches from GitHub and StackOverflow without LLM overhead.</span>
+                            </div>
+                        </div>
+                        <div class="arch-step">
+                            <div class="arch-step-num">3</div>
+                            <div class="arch-step-text">
+                                <strong>Verifier Agent (LLM)</strong>
+                                <span class="arch-step-desc">Synthesizes raw payloads, verifies links, and formats final markdown report.</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Connection Status Card -->
+            <!-- Connection Network Status Widget -->
             <div class="widget widget-status">
                 <h3 class="widget-title">Agent Network Status</h3>
                 <div class="status-list">
@@ -178,19 +110,85 @@
                     </div>
                     <div class="status-item">
                         <span class="status-dot online" id="status-backend"></span>
-                        <span>FastAPI Local Service</span>
+                        <span>FastAPI Service (SQLite DB)</span>
                     </div>
                 </div>
             </div>
             
-            <!-- Quick Run Card -->
+            <div class="sidebar-footer">
+                <p>Designed for Technical Portfolio Showcase</p>
+                <p>FastAPI • SQLAlchemy • SQLite • Vanilla JS</p>
+            </div>
+        </aside>
+
+        <!-- Center Feed & Post Details Content -->
+        <main class="content-area">
+            <!-- Feed View -->
+            <div id="feed-view-container">
+                <div class="feed-header">
+                    <h1 id="feed-title" class="feed-heading">Task Executions</h1>
+                    <div class="feed-filters">
+                        <button class="filter-btn active" data-sort="hot">
+                            <i data-lucide="flame"></i><span>Popular</span>
+                        </button>
+                        <button class="filter-btn" data-sort="new">
+                            <i data-lucide="sparkles"></i><span>Recent</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Feed Cards List -->
+                <div class="post-cards-list" id="post-cards-list">
+                    <div class="loading-spinner-container">
+                        <div class="spinner"></div>
+                        <p>Loading execution reports...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Post Details View (Hidden initially) -->
+            <div id="post-details-container" class="hidden">
+                <div class="back-navigation">
+                    <button class="btn btn-secondary" id="btn-back-to-feed">
+                        <i data-lucide="arrow-left"></i><span>Back to Executions</span>
+                    </button>
+                </div>
+                
+                <div id="post-details-content">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar: Quick Prompts & Stats -->
+        <aside class="sidebar-right">
+            <!-- Portfolio Overview Card -->
+            <div class="widget widget-stats-card">
+                <h3 class="widget-title">Engine Analytics</h3>
+                <div class="widget-stats">
+                    <div class="stat-box">
+                        <span class="stat-value" id="stats-total-posts">0</span>
+                        <span class="stat-label">Total Task Runs</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-value" id="stats-active-agents">3</span>
+                        <span class="stat-label">Active Agents</span>
+                    </div>
+                </div>
+                <p class="portfolio-note">
+                    Run tasks locally to see how data flows dynamically from LLMs to tools, saving records persistently.
+                </p>
+            </div>
+
+            <!-- Demo Pre-runs -->
             <div class="widget widget-quickrun">
-                <h3 class="widget-title">Quick Tasks</h3>
-                <p class="widget-desc-text">Select a common prompt to run immediately:</p>
+                <h3 class="widget-title">Common Dev Queries</h3>
+                <p class="widget-desc-text">Click a template query to launch the multi-agent chain:</p>
                 <div class="quick-prompts-list">
-                    <button class="quick-prompt-btn">FastAPI CORS configuration in React</button>
-                    <button class="quick-prompt-btn">Dockerize a Python service with Gunicorn</button>
-                    <button class="quick-prompt-btn">GitHub Actions pipeline for auto testing</button>
+                    <button class="quick-prompt-btn">FastAPI CORS configuration with React client</button>
+                    <button class="quick-prompt-btn">Dockerize a Python FastAPI service with SQLite</button>
+                    <button class="quick-prompt-btn">GitHub Actions workflow for pytest and linting</button>
+                    <button class="quick-prompt-btn">Integrate Celery background worker in python</button>
                 </div>
             </div>
         </aside>
@@ -202,26 +200,26 @@
     <div class="modal-overlay hidden" id="run-task-modal">
         <div class="modal-card">
             <div class="modal-header">
-                <h2 class="modal-title">Launch Autonomous Agent Task</h2>
+                <h2 class="modal-title">Launch Agent Coordination</h2>
                 <button class="modal-close" id="modal-close-btn">&times;</button>
             </div>
             <div class="modal-body">
                 <form id="run-task-form">
                     <div class="form-group">
-                        <label for="task-prompt">What operations task would you like the agents to solve?</label>
-                        <textarea id="task-prompt" placeholder="e.g. Find popular python repos for web scraping and how to handle Cloudflare blocks on StackOverflow." required rows="4"></textarea>
+                        <label for="task-prompt">Enter a development or deployment question/task:</label>
+                        <textarea id="task-prompt" placeholder="e.g. How to handle database migrations in SQLAlchemy with FastAPI, and locate popular GitHub example repos." required rows="4"></textarea>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group half-width">
-                            <label for="task-subreddit">Choose Subreddit</label>
-                            <select id="task-subreddit">
-                                <option value="All">r/All</option>
-                                <option value="FastAPI">r/FastAPI</option>
-                                <option value="GitHub">r/GitHub</option>
-                                <option value="StackOverflow">r/StackOverflow</option>
-                                <option value="Docker">r/Docker</option>
-                                <option value="Python">r/Python</option>
+                            <label for="task-category">Select Category Tag</label>
+                            <select id="task-category">
+                                <option value="FastAPI">FastAPI</option>
+                                <option value="GitHub">GitHub</option>
+                                <option value="StackOverflow">StackOverflow</option>
+                                <option value="Docker">Docker</option>
+                                <option value="Python">Python</option>
+                                <option value="General">General</option>
                             </select>
                         </div>
                         <div class="form-group half-width flex-center-y">
@@ -230,7 +228,7 @@
                                 <span class="toggle-slider"></span>
                                 <span class="toggle-label-text">
                                     Mock Mode
-                                    <span class="info-tooltip" title="Runs simulated LLM steps instantly without using API keys. Uncheck to run real OpenAI agent queries.">ℹ️</span>
+                                    <span class="info-tooltip" title="Runs simulated agent steps instantly without using API keys. Uncheck to execute real LLM queries (requires OpenAI key).">ℹ️</span>
                                 </span>
                             </label>
                         </div>
@@ -239,20 +237,20 @@
                     <div class="modal-actions">
                         <button type="button" class="btn btn-secondary" id="modal-cancel-btn">Cancel</button>
                         <button type="submit" class="btn btn-primary" id="modal-submit-btn">
-                            <i data-lucide="play"></i><span>Run Agents</span>
+                            <i data-lucide="play"></i><span>Run Pipeline</span>
                         </button>
                     </div>
                 </form>
 
-                <!-- Live Agent Execution Visualizer (Hidden initially) -->
+                <!-- Live Agent Execution Visualizer -->
                 <div class="visualizer-container hidden" id="agent-visualizer">
-                    <h3 class="visualizer-status-heading">Agent Coordination Chain</h3>
+                    <h3 class="visualizer-status-heading">Active Agent Execution Chain</h3>
                     
                     <div class="visualizer-network">
                         <!-- Step 1: Planner -->
                         <div class="agent-node" id="node-planner">
                             <div class="agent-avatar">🧠</div>
-                            <h4 class="agent-name">Planner Agent</h4>
+                            <h4 class="agent-name">1. Planner LLM</h4>
                             <p class="agent-status">Waiting...</p>
                         </div>
 
@@ -263,7 +261,7 @@
                         <!-- Step 2: Executor -->
                         <div class="agent-node" id="node-executor">
                             <div class="agent-avatar">⚙️</div>
-                            <h4 class="agent-name">Executor Agent</h4>
+                            <h4 class="agent-name">2. Python Executor</h4>
                             <p class="agent-status">Waiting...</p>
                         </div>
 
@@ -274,7 +272,7 @@
                         <!-- Step 3: Verifier -->
                         <div class="agent-node" id="node-verifier">
                             <div class="agent-avatar">🛡️</div>
-                            <h4 class="agent-name">Verifier Agent</h4>
+                            <h4 class="agent-name">3. Verifier LLM</h4>
                             <p class="agent-status">Waiting...</p>
                         </div>
                     </div>
