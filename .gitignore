@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual env
+.venv/
+ai_ops_assistant/.venv/
+
+# Secrets
+.env
+ai_ops_assistant/.env
+
+# Database
+*.db
+
+# OS/IDE
+.vscode/
+.idea/

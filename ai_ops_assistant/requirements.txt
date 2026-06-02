@@ -4,4 +4,4 @@ python-dotenv>=1.0.1
 openai>=1.50.0
 requests>=2.32.0
 pydantic>=2.8.0
-
+sqlalchemy>=2.0.0

@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  ai-ops-assistant:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai_ops_assistant
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./ai_ops_assistant/.env
+    environment:
+      - DATABASE_URL=sqlite:////app/data/ai_ops_assistant.db
+    volumes:
+      - db-data:/app/data
+    restart: always
+
+volumes:
+  db-data:

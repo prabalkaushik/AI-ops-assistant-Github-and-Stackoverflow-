@@ -1,0 +1,1533 @@
+/* ==========================================================================
+   CSS Design Tokens & Core Theme Setup
+   ========================================================================== */
+
+:root {
+    /* Color Variables (Dark Mode Default) */
+    --reddit-orange: #FF4500;
+    --reddit-orange-hover: #E03D00;
+    --reddit-blue: #0079D3;
+    --reddit-blue-light: #5A75F9;
+    --bg-body: #0B0C0E;
+    --bg-surface: #16181B;
+    --bg-header: #1A1C1F;
+    --border-color: #27292D;
+    --text-primary: #F2F4F7;
+    --text-secondary: #9DA3AE;
+    --text-muted: #646A73;
+    --hover-overlay: rgba(255, 255, 255, 0.04);
+    --input-bg: #27292D;
+    
+    /* Statuses */
+    --color-online: #22C55E;
+    --color-offline: #EF4444;
+    --color-warning: #F59E0B;
+    
+    /* Layout */
+    --header-height: 56px;
+    --sidebar-left-width: 240px;
+    --sidebar-right-width: 320px;
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 16px;
+    --transition-speed: 0.25s;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,0.5);
+    
+    /* Glassmorphism */
+    --glass-bg: rgba(22, 24, 27, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="light"] {
+    /* Color Variables (Light Mode) */
+    --bg-body: #DAE0E6;
+    --bg-surface: #FFFFFF;
+    --bg-header: #FFFFFF;
+    --border-color: #CCCCCC;
+    --text-primary: #1C1C1C;
+    --text-secondary: #576F76;
+    --text-muted: #787C7E;
+    --hover-overlay: rgba(0, 0, 0, 0.04);
+    --input-bg: #F6F7F8;
+    
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+    
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(0, 0, 0, 0.08);
+}
+
+/* ==========================================================================
+   Base Styles
+   ========================================================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-body);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-x: hidden;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+a {
+    color: var(--reddit-blue-light);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    outline: none;
+}
+
+ul {
+    list-style-type: none;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-body);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* ==========================================================================
+   Typography Helpers
+   ========================================================================== */
+
+h1, h2, h3, h4, .logo-text {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+}
+
+.accent-text {
+    color: var(--reddit-orange);
+}
+
+/* ==========================================================================
+   Header Styles
+   ========================================================================== */
+
+.reddit-header {
+    background-color: var(--bg-header);
+    border-bottom: 1px solid var(--border-color);
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+    transition: background-color var(--transition-speed), border-color var(--transition-speed);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.logo-icon {
+    font-size: 24px;
+    animation: float 3s ease-in-out infinite;
+}
+
+.logo-text {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.header-center {
+    flex: 0 1 600px;
+    margin: 0 20px;
+}
+
+.search-bar-container {
+    background-color: var(--input-bg);
+    border: 1px solid transparent;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    height: 40px;
+    width: 100%;
+    transition: border-color var(--transition-speed), background-color var(--transition-speed);
+}
+
+.search-bar-container:focus-within {
+    border-color: var(--reddit-orange);
+    background-color: var(--bg-body);
+}
+
+.search-icon {
+    color: var(--text-secondary);
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+}
+
+.search-bar-container input {
+    background: transparent;
+    border: none;
+    width: 100%;
+    color: var(--text-primary);
+}
+
+.search-bar-container input::placeholder {
+    color: var(--text-muted);
+}
+
+.search-clear-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 2px;
+}
+
+.search-clear-btn:hover {
+    color: var(--text-primary);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* User Selector dropdown styling */
+.user-selector-container {
+    display: flex;
+    align-items: center;
+    background-color: var(--input-bg);
+    border-radius: 20px;
+    padding: 4px 12px;
+    gap: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.user-avatar {
+    font-size: 16px;
+}
+
+.user-selector-container select {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color var(--transition-speed);
+}
+
+.theme-toggle:hover {
+    background-color: var(--hover-overlay);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .sun-icon { display: block; }
+[data-theme="dark"] .moon-icon { display: none; }
+[data-theme="light"] .sun-icon { display: none; }
+[data-theme="light"] .moon-icon { display: block; }
+
+/* ==========================================================================
+   Buttons Setup
+   ========================================================================== */
+
+.btn {
+    border-radius: 9999px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 600;
+    padding: 8px 16px;
+    transition: background-color var(--transition-speed), border-color var(--transition-speed), transform 0.1s;
+    height: 38px;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn-primary {
+    background-color: var(--reddit-orange);
+    color: #FFFFFF;
+}
+
+.btn-primary:hover {
+    background-color: var(--reddit-orange-hover);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+    background-color: var(--hover-overlay);
+    border-color: var(--text-secondary);
+}
+
+.btn-icon {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border-radius: 50%;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ==========================================================================
+   Layout Containers
+   ========================================================================== */
+
+.main-container {
+    display: grid;
+    grid-template-columns: var(--sidebar-left-width) 1fr var(--sidebar-right-width);
+    gap: 20px;
+    max-width: 1400px;
+    margin: var(--header-height) auto 0 auto;
+    padding: 20px;
+    min-height: calc(100vh - var(--header-height));
+}
+
+@media (max-width: 1200px) {
+    .main-container {
+        grid-template-columns: var(--sidebar-left-width) 1fr;
+    }
+    .sidebar-right {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+    .sidebar-left {
+        display: none;
+    }
+    .reddit-header {
+        padding: 0 10px;
+    }
+    .header-center {
+        display: none; /* Hide search bar on very small devices */
+    }
+}
+
+/* ==========================================================================
+   Left Sidebar Styles
+   ========================================================================== */
+
+.sidebar-left {
+    position: sticky;
+    top: calc(var(--header-height) + 20px);
+    height: calc(100vh - var(--header-height) - 40px);
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.nav-section {
+    margin-bottom: 24px;
+}
+
+.nav-section-title {
+    color: var(--text-muted);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    padding-left: 12px;
+}
+
+.nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.nav-item {
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 40px;
+    padding: 0 12px;
+    color: var(--text-secondary);
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+.nav-item i {
+    width: 20px;
+    height: 20px;
+}
+
+.nav-item:hover {
+    background-color: var(--hover-overlay);
+    color: var(--text-primary);
+}
+
+.nav-item.active {
+    background-color: var(--hover-overlay);
+    color: var(--reddit-orange);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    border-top: 1px solid var(--border-color);
+    padding-top: 16px;
+    margin-top: 24px;
+    color: var(--text-muted);
+    font-size: 11px;
+}
+
+.sidebar-footer p {
+    margin-bottom: 4px;
+}
+
+/* ==========================================================================
+   Center Content Area Feed
+   ========================================================================== */
+
+.content-area {
+    min-width: 0; /* Prevents flex items from overflowing */
+}
+
+.feed-header {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: 16px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.feed-heading {
+    font-size: 22px;
+    color: var(--text-primary);
+}
+
+.feed-filters {
+    display: flex;
+    background-color: var(--bg-body);
+    border-radius: 20px;
+    padding: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.filter-btn {
+    background: transparent;
+    border: none;
+    border-radius: 16px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    font-weight: 600;
+    font-size: 13px;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+.filter-btn i {
+    width: 16px;
+    height: 16px;
+}
+
+.filter-btn:hover {
+    color: var(--text-primary);
+}
+
+.filter-btn.active {
+    background-color: var(--bg-surface);
+    color: var(--reddit-orange);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Post Card Styles */
+.post-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    margin-bottom: 12px;
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: border-color var(--transition-speed), transform 0.15s, box-shadow var(--transition-speed);
+}
+
+.post-card:hover {
+    border-color: var(--text-muted);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Voting System */
+.post-voting {
+    background-color: rgba(0,0,0,0.05);
+    border-top-left-radius: var(--border-radius-md);
+    border-bottom-left-radius: var(--border-radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 0;
+    gap: 4px;
+}
+
+.vote-arrow {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+.vote-arrow:hover {
+    background-color: var(--hover-overlay);
+}
+
+.vote-arrow.up:hover, .vote-arrow.up.active {
+    color: var(--reddit-orange);
+}
+
+.vote-arrow.down:hover, .vote-arrow.down.active {
+    color: var(--reddit-blue-light);
+}
+
+.vote-count {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* Post Content */
+.post-main {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.post-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    flex-wrap: wrap;
+}
+
+.post-subreddit-tag {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.post-subreddit-tag:hover {
+    text-decoration: underline;
+}
+
+.post-bullet {
+    color: var(--text-muted);
+}
+
+.post-card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.post-card-summary {
+    color: var(--text-secondary);
+    font-size: 13px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+/* Post Steps list (Planner preview) */
+.post-plan-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.plan-step-badge {
+    background-color: var(--bg-body);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    font-size: 11px;
+    padding: 2px 8px;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.plan-step-badge i {
+    width: 12px;
+    height: 12px;
+}
+
+/* Action Bar */
+.post-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--text-secondary);
+}
+
+.post-action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--text-secondary);
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+.post-action-btn:hover {
+    background-color: var(--hover-overlay);
+    color: var(--text-primary);
+}
+
+.post-action-btn i {
+    width: 16px;
+    height: 16px;
+}
+
+/* Loading & Empty States */
+.loading-spinner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    gap: 16px;
+    color: var(--text-secondary);
+}
+
+.spinner {
+    border: 4px solid var(--border-color);
+    border-top: 4px solid var(--reddit-orange);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+.no-posts-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.no-posts-card i {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 12px;
+    color: var(--text-muted);
+}
+
+.no-posts-card h3 {
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+/* ==========================================================================
+   Post Details View (expanded post view)
+   ========================================================================== */
+
+.back-navigation {
+    margin-bottom: 16px;
+}
+
+.post-detail-main-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-sm);
+}
+
+.post-detail-header-panel {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.post-detail-body {
+    padding: 20px;
+}
+
+/* Agent flow accordion visualization */
+.detail-section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 24px 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 8px;
+}
+
+.detail-section-title i {
+    width: 18px;
+    height: 18px;
+    color: var(--reddit-orange);
+}
+
+/* Plan Flow diagram in full view */
+.flow-diagram-container {
+    background-color: var(--bg-body);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.flow-step-item {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: 12px;
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.flow-step-item:last-child {
+    margin-bottom: 0;
+}
+
+.flow-step-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.flow-step-number {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--reddit-orange);
+}
+
+.flow-step-tool-badge {
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 11px;
+    padding: 2px 6px;
+    font-weight: 600;
+}
+
+.flow-step-desc {
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+/* Collapsible executor details JSON */
+.flow-step-details-toggle {
+    background: none;
+    border: none;
+    color: var(--reddit-blue-light);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.flow-step-details-toggle:hover {
+    text-decoration: underline;
+}
+
+.flow-step-details-toggle i {
+    width: 12px;
+    height: 12px;
+}
+
+.flow-step-json-content {
+    background-color: #050608;
+    color: #34D399; /* Green coding font */
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 12px;
+    border-radius: 4px;
+    margin-top: 8px;
+    overflow-x: auto;
+    max-height: 250px;
+}
+
+/* Verifier Markdown Answer Renderer */
+.verifier-markdown-output {
+    line-height: 1.6;
+    color: var(--text-primary);
+}
+
+.verifier-markdown-output h3 {
+    margin: 16px 0 8px 0;
+    font-size: 16px;
+}
+
+.verifier-markdown-output h4 {
+    margin: 12px 0 6px 0;
+    font-size: 14px;
+}
+
+.verifier-markdown-output p {
+    margin-bottom: 12px;
+}
+
+.verifier-markdown-output blockquote {
+    border-left: 4px solid var(--reddit-orange);
+    background-color: var(--hover-overlay);
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    border-radius: var(--border-radius-sm);
+    color: var(--text-secondary);
+}
+
+.verifier-markdown-output ul, .verifier-markdown-output ol {
+    margin: 0 0 12px 20px;
+}
+
+.verifier-markdown-output li {
+    margin-bottom: 4px;
+}
+
+.verifier-markdown-output pre {
+    background-color: var(--bg-body);
+    border: 1px solid var(--border-color);
+    padding: 12px;
+    border-radius: var(--border-radius-md);
+    overflow-x: auto;
+    margin-bottom: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+}
+
+.verifier-markdown-output code {
+    background-color: var(--bg-body);
+    font-family: 'JetBrains Mono', monospace;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.verifier-markdown-output pre code {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+}
+
+/* ==========================================================================
+   Comments System (Reddit style)
+   ========================================================================== */
+
+.comments-container {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+.comment-input-area {
+    margin-bottom: 24px;
+}
+
+.comment-input-area label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.comment-textarea {
+    width: 100%;
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: 12px;
+    color: var(--text-primary);
+    resize: vertical;
+    margin-bottom: 12px;
+    transition: border-color var(--transition-speed);
+}
+
+.comment-textarea:focus {
+    border-color: var(--reddit-orange);
+}
+
+/* Comments list recursive styles */
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.comment-card {
+    border-left: 2px solid var(--border-color);
+    padding-left: 16px;
+    position: relative;
+    transition: border-color var(--transition-speed);
+}
+
+.comment-card:hover {
+    border-left-color: var(--text-secondary);
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.comment-author {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.comment-content {
+    font-size: 13.5px;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    white-space: pre-wrap;
+}
+
+.comment-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.comment-reply-form {
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+/* ==========================================================================
+   Right Sidebar Widget Components
+   ========================================================================== */
+
+.sidebar-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.widget {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.widget-header-banner {
+    background: linear-gradient(135deg, var(--reddit-orange), var(--reddit-orange-hover));
+    height: 48px;
+    width: 100%;
+}
+
+.widget-body {
+    padding: 16px;
+}
+
+.widget-title-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: -30px;
+    margin-bottom: 12px;
+}
+
+.widget-avatar {
+    font-size: 32px;
+    background-color: var(--bg-surface);
+    border: 4px solid var(--bg-surface);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.widget-title {
+    font-size: 16px;
+    margin-top: 24px;
+}
+
+.widget-description {
+    color: var(--text-secondary);
+    font-size: 12.5px;
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+.widget-stats {
+    display: flex;
+    gap: 20px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 12px;
+}
+
+.stat-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+/* Status widget */
+.widget-status {
+    padding: 16px;
+}
+
+.widget-status .widget-title {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+.status-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.status-dot.online {
+    background-color: var(--color-online);
+    box-shadow: 0 0 8px var(--color-online);
+}
+
+.status-dot.offline {
+    background-color: var(--color-offline);
+    box-shadow: 0 0 8px var(--color-offline);
+}
+
+/* Quick Prompts list */
+.widget-quickrun {
+    padding: 16px;
+}
+
+.widget-quickrun .widget-title {
+    margin-top: 0;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+.widget-desc-text {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+}
+
+.quick-prompts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.quick-prompt-btn {
+    background-color: var(--bg-body);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 10px;
+    text-align: left;
+    transition: background-color var(--transition-speed), border-color var(--transition-speed), color var(--transition-speed);
+}
+
+.quick-prompt-btn:hover {
+    background-color: var(--hover-overlay);
+    border-color: var(--reddit-orange);
+    color: var(--text-primary);
+}
+
+/* ==========================================================================
+   Modals & Glassmorphic Overlay
+   ========================================================================== */
+
+.modal-overlay {
+    background-color: rgba(0,0,0,0.6);
+    backdrop-filter: blur(8px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius-lg);
+    width: 100%;
+    max-width: 650px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    animation: zoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--border-color);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-title {
+    font-size: 18px;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 28px;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: var(--text-primary);
+}
+
+.modal-body {
+    padding: 20px;
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+}
+
+.form-group textarea {
+    width: 100%;
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    color: var(--text-primary);
+    padding: 12px;
+    resize: vertical;
+    transition: border-color var(--transition-speed);
+}
+
+.form-group textarea:focus {
+    border-color: var(--reddit-orange);
+}
+
+.form-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.half-width {
+    flex: 1;
+}
+
+.flex-center-y {
+    display: flex;
+    align-items: center;
+}
+
+.form-group select {
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    color: var(--text-primary);
+    height: 40px;
+    width: 100%;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+/* Custom Toggle Switch for Mock Mode */
+.toggle-container {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.toggle-container input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+    background-color: var(--border-color);
+    border-radius: 34px;
+    transition: background-color var(--transition-speed);
+    margin-right: 10px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: #FFFFFF;
+    border-radius: 50%;
+    transition: transform var(--transition-speed);
+}
+
+.toggle-container input:checked + .toggle-slider {
+    background-color: var(--reddit-orange);
+}
+
+.toggle-container input:checked + .toggle-slider:before {
+    transform: translateX(20px);
+}
+
+.toggle-label-text {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.info-tooltip {
+    cursor: help;
+    display: inline-block;
+    margin-left: 4px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 16px;
+    margin-top: 16px;
+}
+
+/* ==========================================================================
+   Multi-Agent Execution Visualizer UI
+   ========================================================================== */
+
+.visualizer-container {
+    border-top: 1px solid var(--border-color);
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+.visualizer-status-heading {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+}
+
+.visualizer-network {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding: 0 10px;
+}
+
+.agent-node {
+    background-color: var(--bg-body);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: 12px;
+    width: 130px;
+    text-align: center;
+    transition: all 0.4s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.agent-node.active {
+    border-color: var(--reddit-orange);
+    box-shadow: 0 0 15px rgba(255, 69, 0, 0.4);
+    transform: scale(1.05);
+}
+
+.agent-node.completed {
+    border-color: var(--color-online);
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.2);
+}
+
+.agent-avatar {
+    font-size: 28px;
+    margin-bottom: 6px;
+}
+
+.agent-name {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.agent-status {
+    font-size: 10px;
+    color: var(--text-secondary);
+}
+
+.agent-node.active .agent-status {
+    color: var(--reddit-orange);
+    font-weight: 600;
+}
+
+.agent-node.completed .agent-status {
+    color: var(--color-online);
+    font-weight: 600;
+}
+
+/* Connection Paths */
+.agent-connector {
+    flex: 1;
+    height: 4px;
+    background-color: var(--border-color);
+    margin: 0 10px;
+    position: relative;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.agent-connector.active {
+    background: linear-gradient(90deg, var(--border-color), var(--reddit-orange));
+}
+
+.agent-connector.completed {
+    background-color: var(--color-online);
+}
+
+.connector-pulse {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 69, 0, 0.8), transparent);
+    animation: flowPulse 1.5s linear infinite;
+    display: none;
+}
+
+.agent-connector.active .connector-pulse {
+    display: block;
+}
+
+/* Log output terminal */
+.visualizer-details {
+    background-color: #050608;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: 12px;
+}
+
+.terminal-logs {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: #A3A7AF;
+    max-height: 150px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.log-line {
+    line-height: 1.4;
+    word-break: break-all;
+}
+
+.log-line.info {
+    color: #3897F0;
+}
+
+.log-line.success {
+    color: var(--color-online);
+}
+
+.log-line.warning {
+    color: var(--color-warning);
+}
+
+.log-line.error {
+    color: var(--color-offline);
+}
+
+.log-line.spinner-line:after {
+    content: " .";
+    animation: dots 1.5s steps(5, end) infinite;
+}
+
+/* ==========================================================================
+   Animations & Keyframes
+   ========================================================================== */
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+}
+
+@keyframes flowPulse {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes dots {
+    0%, 20% { content: " ."; }
+    40% { content: " .."; }
+    60% { content: " ..."; }
+    80%, 100% { content: ""; }
+}
